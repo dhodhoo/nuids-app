@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking Konsultasi | Nuids</title>
+    <link rel="stylesheet" href="/src/styles/user/features/booking.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../../../styles/global.css" />
+    <link rel="stylesheet" href="/src/lib/background-blob.css" />
+  </head>
+  <body>
+    <div class="booking-container">
+      <!-- Progress Indicator -->
+      <div class="progress-bar">
+        <div class="progress-step active" data-step="1">
+          <div class="step-number">1</div>
+          <span class="step-label">Pilih Jadwal</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="2">
+          <div class="step-number">2</div>
+          <span class="step-label">Data Pasien</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="3">
+          <div class="step-number">3</div>
+          <span class="step-label">Konfirmasi</span>
+        </div>
+      </div>
+
+      <!-- Doctor Info Card -->
+      <div class="doctor-card-booking">
+        <img id="doctor-avatar" src="" alt="Doctor" class="doctor-img" />
+        <div class="doctor-info">
+          <h2 id="doctor-name">Dr. Name</h2>
+          <p id="doctor-specialty" class="specialty">Specialty</p>
+          <p class="practice">
+            <i class="fas fa-hospital"></i>
+            <span id="doctor-practice">Practice</span>
+          </p>
+          <p class="cost">
+            <i class="fas fa-money-bill-wave"></i>
+            <span id="doctor-cost">Cost</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Booking Form Steps -->
+      <form id="booking-form" class="booking-form">
+        <!-- Step 1: Select Date & Time -->
+        <div class="form-step active" id="step-1">
+          <h3><i class="fas fa-calendar-alt"></i> Pilih Tanggal dan Waktu</h3>
+
+          <div class="form-group">
+            <label for="appointment-date"
+              >Tanggal Konsultasi <span class="required">*</span></label
+            >
+            <input type="date" id="appointment-date" name="date" required />
+            <small class="help-text">Pilih tanggal mulai dari hari ini</small>
+          </div>
+
+          <div class="form-group">
+            <label>Pilih Waktu Tersedia <span class="required">*</span></label>
+            <div class="time-slots" id="time-slots">
+              <!-- Time slots akan di-generate oleh JavaScript -->
+            </div>
+            <small class="help-text" id="time-help"
+              >Pilih tanggal terlebih dahulu</small
+            >
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn-secondary"
+              onclick="window.history.back()"
+            >
+              <i class="fas fa-arrow-left"></i> Kembali
+            </button>
+            <button type="button" class="btn-primary" onclick="nextStep(2)">
+              Lanjut <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Patient Data -->
+        <div class="form-step" id="step-2">
+          <h3><i class="fas fa-user-edit"></i> Data Pasien</h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="child-name"
+                >Nama Anak <span class="required">*</span></label
+              >
+              <input
+                type="text"
+                id="child-name"
+                name="childName"
+                required
+                placeholder="Masukkan nama lengkap anak"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="child-age"
+                >Usia Anak <span class="required">*</span></label
+              >
+              <input
+                type="number"
+                id="child-age"
+                name="childAge"
+                required
+                placeholder="Dalam tahun"
+                min="0"
+                max="60"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="child-gender"
+                >Jenis Kelamin <span class="required">*</span></label
+              >
+              <select id="child-gender" name="childGender" required>
+                <option value="">Pilih jenis kelamin</option>
+                <option value="male">Laki-laki</option>
+                <option value="female">Perempuan</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="parent-phone"
+                >No. Telepon Orang Tua <span class="required">*</span></label
+              >
+              <input
+                type="tel"
+                id="parent-phone"
+                name="parentPhone"
+                required
+                placeholder="08xxxxxxxxxx"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="complaint"
+              >Keluhan / Tujuan Konsultasi
+              <span class="required">*</span></label
+            >
+            <textarea
+              id="complaint"
+              name="complaint"
+              rows="4"
+              required
+              placeholder="Jelaskan keluhan atau alasan konsultasi (misal: gizi kurang, alergi makanan, menu MPASI, dll)"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="medical-history">Riwayat Penyakit (Opsional)</label>
+            <textarea
+              id="medical-history"
+              name="medicalHistory"
+              rows="3"
+              placeholder="Riwayat alergi, penyakit kronis, atau kondisi khusus lainnya"
+            ></textarea>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="terms" name="terms" required />
+              Saya menyetujui
+              <a href="#" class="link">syarat dan ketentuan</a> serta
+              <a href="#" class="link">kebijakan privasi</a>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" onclick="prevStep(1)">
+              <i class="fas fa-arrow-left"></i> Kembali
+            </button>
+            <button type="button" class="btn-primary" onclick="nextStep(3)">
+              Lanjut <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Confirmation -->
+        <div class="form-step" id="step-3">
+          <h3><i class="fas fa-check-circle"></i> Konfirmasi Booking</h3>
+
+          <div class="confirmation-card">
+            <div class="confirmation-section">
+              <h4>Informasi Dokter</h4>
+              <div class="info-row">
+                <span class="label">Dokter:</span>
+                <span class="value" id="confirm-doctor">-</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Spesialisasi:</span>
+                <span class="value" id="confirm-specialty">-</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Biaya:</span>
+                <span class="value highlight" id="confirm-cost">-</span>
+              </div>
+            </div>
+
+            <div class="confirmation-section">
+              <h4>Jadwal Konsultasi</h4>
+              <div class="info-row">
+                <span class="label">Tanggal:</span>
+                <span class="value" id="confirm-date">-</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Waktu:</span>
+                <span class="value" id="confirm-time">-</span>
+              </div>
+            </div>
+
+            <div class="confirmation-section">
+              <h4>Data Pasien</h4>
+              <div class="info-row">
+                <span class="label">Nama Anak:</span>
+                <span class="value" id="confirm-child-name">-</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Usia:</span>
+                <span class="value" id="confirm-child-age">-</span>
+              </div>
+              <div class="info-row">
+                <span class="label">No. Telepon:</span>
+                <span class="value" id="confirm-phone">-</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Keluhan:</span>
+                <span class="value" id="confirm-complaint">-</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="reminder-box">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              <strong>Catatan Penting:</strong>
+              <ul>
+                <li>Konfirmasi booking akan dikirim via WhatsApp</li>
+                <li>Pembayaran dilakukan setelah konsultasi selesai</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" onclick="prevStep(2)">
+              <i class="fas fa-arrow-left"></i> Kembali
+            </button>
+            <button type="submit" class="btn-primary btn-confirm">
+              <i class="fas fa-check"></i> Konfirmasi Booking
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+      <div class="modal-content success-content">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h2>Booking Berhasil!</h2>
+        <p>
+          Appointment Anda telah berhasil dijadwalkan. Kami akan mengirimkan
+          konfirmasi melalui WhatsApp.
+        </p>
+        <div class="modal-actions">
+          <button
+            class="btn-primary"
+            onclick="window.location.href='doctor.html'"
+          >
+            Kembali ke Daftar Dokter
+          </button>
+          <button
+            class="btn-secondary"
+            onclick="window.location.href='dashboard.html'"
+          >
+            Ke Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../../js/main.js"></script>
+    <script src="/src/js/utils/storage.js"></script>
+    <script src="/src/js/pages/booking.js"></script>
+  </body>
+</html>

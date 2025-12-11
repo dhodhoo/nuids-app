@@ -214,6 +214,5 @@
     z-index: -1;
     display: grid;
     min-block-size: 100%;
-    font-family: system-ui, sans-serif;
   }
 }

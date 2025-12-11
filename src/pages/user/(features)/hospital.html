@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rumah Sakit Terdekat | Nuids (OSM)</title>
+    <title>Rumah Sakit Terdekat | Nuids</title>
 
     <link rel="stylesheet" href="/src/styles/user/features/hospital.css" />
     <link
@@ -16,28 +16,23 @@
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       crossorigin=""
     />
+    <script src="https://cdn.maptiler.com/maptiler-sdk-js/v3.9.0/maptiler-sdk.umd.min.js"></script>
+    <link
+      href="https://cdn.maptiler.com/maptiler-sdk-js/v3.9.0/maptiler-sdk.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.maptiler.com/leaflet-maptilersdk/v4.1.0/leaflet-maptilersdk.umd.min.js"></script>
     <link rel="stylesheet" href="../../../styles/global.css" />
     <link rel="stylesheet" href="../../../../src/lib/background-blob.css" />
   </head>
   <body>
     <div class="page-container" style="padding-top: 20px">
-      <h1 class="page-title">Pencarian Rumah Sakit Terdekat (OSM)</h1>
+      <h1 class="page-title">Pencarian Rumah Sakit Terdekat</h1>
 
       <main class="rs-container">
         <section class="location-panel">
           <div class="map-card gradient-border-card">
-            <div id="map"></div>
-          </div>
-
-          <div class="location-input-wrap">
-            <input
-              type="text"
-              placeholder="Masukkan lokasi atau 'Dekat Saya'"
-              id="location-input"
-            />
-            <button id="search-rs-btn" class="input-arrow-btn">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+            <div id="map"><div id="status">Mendeteksi lokasi Anda...</div></div>
           </div>
         </section>
 

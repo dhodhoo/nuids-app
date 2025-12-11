@@ -125,59 +125,97 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 1. Fungsi untuk mengisi dan menampilkan Modal
+  // Update fungsi openModal di doctor.js untuk cek status booking
+
   function openModal(doctorId) {
     const data = DOCTORS_DATA[doctorId];
     if (!data) return;
 
-    // Tentukan tombol Chat statusnya
-    const chatButtonHtml =
-      data.status === "available"
-        ? `<button class="btn-chat">Chat Sekarang</button>`
-        : `<button class="btn-chat disabled" disabled>Tidak Tersedia</button>`;
+    // Check if user has active booking with this doctor
+    const hasBooking = StorageManager.hasBookingWithDoctor(doctorId);
+    const doctorBookings = StorageManager.getBookingsByDoctor(doctorId);
+    const activeBooking = doctorBookings.find(
+      (b) => b.status === "confirmed" && b.chatEnabled === true
+    );
 
-    // Buat konten HTML untuk Modal
+    // Determine chat button based on booking status
+    let chatButtonHtml;
+    if (data.status === "busy") {
+      chatButtonHtml = `<button class="btn-chat disabled" disabled>Tidak Tersedia</button>`;
+    } else if (hasBooking && activeBooking) {
+      // User has booking, check if chat is available
+      const validation = StorageManager.validateChatAccess(
+        doctorId,
+        activeBooking.chatToken
+      );
+
+      if (validation.valid) {
+        chatButtonHtml = `<button class="btn-chat btn-primary" onclick="openChatWithValidation('${doctorId}', '${activeBooking.chatToken}')">
+        <i class="fas fa-comments"></i> Chat Sekarang
+      </button>`;
+      } else {
+        chatButtonHtml = `<button class="btn-chat disabled" disabled title="${
+          validation.message
+        }">
+        <i class="fas fa-lock"></i> ${
+          validation.message.includes("1 hari")
+            ? "Chat Belum Tersedia"
+            : "Chat Tidak Tersedia"
+        }
+      </button>`;
+      }
+    } else {
+      chatButtonHtml = `<button class="btn-chat requires-booking" onclick="showBookingRequired()">
+      <i class="fas fa-lock"></i> Booking Dulu
+    </button>`;
+    }
+
+    // Modal content dengan info booking status
     modalBody.innerHTML = `
-            <div class="doctor-profile">
-                <img src="${data.img}" alt="Foto Dokter ${
-      data.name
-    }" class="profile-img">
-                <h3 class="doctor-name">${data.name}</h3>
-                <p class="specialty">${data.specialty}</p>
-                <div class="rating"><i class="fa-solid fa-star"></i> ${
-                  data.rating
-                } (${data.reviews} Review)</div>
-            </div>
+    <div class="doctor-profile">
+      <img src="${data.img}" alt="Foto Dokter ${data.name}" class="profile-img">
+      <h3 class="doctor-name">${data.name}</h3>
+      <p class="specialty">${data.specialty}</p>
+      <div class="rating"><i class="fa-solid fa-star"></i> ${data.rating} (${
+      data.reviews
+    } Review)</div>
+      ${
+        hasBooking
+          ? '<span class="booking-badge"><i class="fas fa-check-circle"></i> Anda punya booking</span>'
+          : ""
+      }
+    </div>
 
-            <p class="description">${data.description}</p>
-            
-            <div class="details-grid">
-                <div class="detail-item">
-                    <strong>Tempat Praktik</strong>
-                    <span>${data.practice}</span>
-                </div>
-                <div class="detail-item">
-                    <strong>Status Ketersediaan</strong>
-                    <span class="status ${data.status}">${
+    <p class="description">${data.description}</p>
+    
+    <div class="details-grid">
+      <div class="detail-item">
+        <strong>Tempat Praktik</strong>
+        <span>${data.practice}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Status Ketersediaan</strong>
+        <span class="status ${data.status}">${
       data.status === "available" ? "Tersedia" : "Sedang Sibuk"
     }</span>
-                </div>
-                <div class="detail-item">
-                    <strong>Biaya Konsultasi</strong>
-                    <span style="color: #f29fa0; font-weight: 700;">${
-                      data.cost
-                    }</span>
-                </div>
-                <div class="detail-item">
-                    <strong>Jadwal</strong>
-                    <span>Lihat Kalender</span>
-                </div>
-            </div>
+      </div>
+      <div class="detail-item">
+        <strong>Biaya Konsultasi</strong>
+        <span style="color: #f29fa0; font-weight: 700;">${data.cost}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Jadwal</strong>
+        <span>Lihat Kalender</span>
+      </div>
+    </div>
 
-            <div class="action-buttons">
-                ${chatButtonHtml}
-                <button class="btn-booking">Booking Jadwal</button>
-            </div>
-        `;
+    <div class="action-buttons">
+      ${chatButtonHtml}
+      <button class="btn-booking" onclick="openBooking('${doctorId}')">
+        <i class="fas fa-calendar-plus"></i> Booking Jadwal
+      </button>
+    </div>
+  `;
 
     modal.style.display = "block";
   }
@@ -202,3 +240,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 });
+
+function openChat(doctorId) {
+  window.location.href = `/src/pages/user/(features)/chatdr.html?doctor=${doctorId}`;
+}
+
+function openBooking(doctorId) {
+  window.location.href = `/src/pages/user/(features)/booking.html?doctor=${doctorId}`;
+}
+
+// Function to open chat with validation
+function openChatWithValidation(doctorId, chatToken) {
+  const validation = StorageManager.validateChatAccess(doctorId, chatToken);
+
+  if (validation.valid) {
+    // Set active chat session
+    StorageManager.setActiveChatSession(
+      doctorId,
+      chatToken,
+      validation.booking.id
+    );
+    window.location.href = `/src/pages/user/(features)/chatdr.html?doctor=${doctorId}&token=${chatToken}`;
+  } else {
+    alert(validation.message);
+  }
+}
+
+// Function to show booking required message
+function showBookingRequired() {
+  alert(
+    'Anda harus melakukan booking terlebih dahulu sebelum dapat chat dengan dokter.\n\nSilakan klik tombol "Booking Jadwal" untuk membuat janji konsultasi.'
+  );
+}

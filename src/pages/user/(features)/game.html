@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/public/images/logo.png" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+    <link rel="stylesheet" href="/src/lib/background-blob.css" />
+    <link rel="stylesheet" href="/src/styles/user/features/game.css" />
+    <title>Game | Nuids</title>
+  </head>
+  <body>
+    <div class="game-container" id="gameContainer">
+      <h1 class="game-title">🍎 Nuids - Game 🦷</h1>
+      <div class="child-character" id="childCharacter">
+        <div class="child-face" id="childFace">
+          <div class="hair"></div>
+          <div class="eyes">
+            <span class="eye"></span><span class="eye"></span>
+          </div>
+          <div class="nose"></div>
+          <div class="mouth" id="childMouth"></div>
+          <div class="interactive-mouth hidden" id="interactiveMouth">
+            <div class="upper-teeth">
+              <div class="tooth-large"></div>
+              <div class="tooth-large"></div>
+              <div class="tooth-large"></div>
+              <div class="tooth-large"></div>
+              <div class="tooth-large"></div>
+              <div class="tooth-large"></div>
+            </div>
+            <div class="lower-teeth">
+              <div class="tooth-large"></div>
+              <div class="tooth-large"></div>
+              <div class="tooth-large"></div>
+              <div class="tooth-large"></div>
+              <div class="tooth-large"></div>
+              <div class="tooth-large"></div>
+            </div>
+          </div>
+        </div>
+        <div class="child-body">
+          <div class="body">
+            <div class="arms">
+              <div class="arm left"><div class="hand"></div></div>
+              <div class="arm right"><div class="hand"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="legs">
+          <div class="leg"><div class="foot"></div></div>
+          <div class="leg"><div class="foot"></div></div>
+        </div>
+      </div>
+      <div class="score" id="scoreDisplay">Skor Nutrisi: 0</div>
+      <div class="game-phase hidden" id="completePhase">
+        <h2>🎉 Hore, Selesai!</h2>
+        <div id="finalMessage"></div>
+        <button class="restart-button" onclick="restartGame()">
+          Main Lagi 🔄
+        </button>
+        <button
+          class="restart-button"
+          onclick="window.location.href = '/index.html';"
+        >
+          Keluar
+        </button>
+      </div>
+
+      <div
+        class="game-phase hidden"
+        id="exerciseTransitionPhase"
+        style="
+          position: fixed;
+          width: 700px;
+          top: 15%;
+          left: 50%;
+          transform: translate(-50%, 50%);
+          background-color: white;
+        "
+      >
+        <h2>✨ Gigi Bersih! ✨</h2>
+        <p>Kerja bagus! Sekarang, ayo berolahraga agar badan sehat dan kuat.</p>
+        <button class="start-exercise-button" id="startRunnerButton">
+          Lanjut Berolahraga 💪
+        </button>
+      </div>
+
+      <div class="brushing-info hidden" id="brushingInfo">
+        <h2>🦷 Sikat Semua Kotoran Gigi!</h2>
+        <div class="brushing-progress">
+          <span
+            >Kotoran Dibersihkan: <span id="cleanCount">0</span>/<span
+              id="totalDebrisCount"
+              >0</span
+            ></span
+          >
+        </div>
+      </div>
+      <div
+        class="game-phase"
+        id="feedingPhase"
+        style="width: 900px; justify-self: center"
+      >
+        <h2>🍽️ Pilih Makanan Bergizi!</h2>
+        <div class="nutrition-info">
+          💡 <strong>Tips:</strong> Pilih makanan sehat agar anak tumbuh kuat
+          dan cerdas!
+        </div>
+        <div
+          class="food-selection"
+          id="foodSelection"
+          style="
+            grid-template-columns: repeat(4, 20%);
+            justify-content: space-around;
+          "
+        ></div>
+        <button class="feed-button" id="feedButton" onclick="feedChild()">
+          Beri Makan 🍴
+        </button>
+        <div id="feedingMessage"></div>
+      </div>
+
+      <div class="game-phase hidden" id="runnerPhase">
+        <h2>🏃‍♂️ Ayo Olahraga!</h2>
+        <p>Sentuh layar atau tekan Spasi untuk melompat!</p>
+        <div class="runner-game-area" id="runnerGameArea">
+          <div id="player-runner">🏃‍♂️‍➡️</div>
+          <div id="ground"></div>
+        </div>
+        <div>Skor Lari: <span id="runnerScore">0</span></div>
+      </div>
+    </div>
+    <div class="toothbrush-large" id="toothbrushLarge">
+      <div class="brush-handle"></div>
+      <div class="brush-head"></div>
+    </div>
+    <div class="custom-alert-overlay" id="customAlertOverlay">
+      <div class="custom-alert-box">
+        <h3 id="customAlertTitle"></h3>
+        <p id="customAlertMessage"></p>
+        <button onclick="closeCustomAlert()">Oke!</button>
+      </div>
+    </div>
+
+    <script src="/src/components/Header.js"></script>
+    <script src="/src/js/main.js"></script>
+    <script src="/src/js/pages/game.js"></script>
+  </body>
+</html>

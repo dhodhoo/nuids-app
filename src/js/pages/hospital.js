@@ -1,168 +1,197 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const rsListContainer = document.getElementById("rs-list");
-  const searchButton = document.getElementById("search-rs-btn");
-  const locationInput = document.getElementById("location-input");
+// API key MapTiler
+const MAPTILER_KEY = "YYFzd6laNue2jLRh4aFe";
 
-  let map;
-  let userLat = -6.9175;
-  let userLon = 107.6191;
+// Konfigurasi MapTiler SDK (wajib sebelum dipakai).[web:39][web:50]
+maptilersdk.config.apiKey = MAPTILER_KEY;
 
-  function initializeMap(lat, lon) {
-    if (map) {
-      map.remove();
-    }
+// Inisialisasi peta Leaflet
+const map = L.map("map").fitWorld();
 
-    map = L.map("map").setView([lat, lon], 14); // Zoom level 14
-
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: "© OpenStreetMap contributors",
-    }).addTo(map);
-
-    L.marker([lat, lon]).addTo(map).bindPopup("Lokasi Anda").openPopup();
+L.tileLayer(
+  `https://api.maptiler.com/maps/streets-v4/{z}/{x}/{y}.png?key=${MAPTILER_KEY}`,
+  {
+    //style URL
+    tileSize: 512,
+    zoomOffset: -1,
+    minZoom: 1,
+    crossOrigin: true,
+    attribution:
+      '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
   }
+).addTo(map);
 
-  function getLocationAndSearch() {
-    rsListContainer.innerHTML = '<p class="loading-text">Mencari lokasi...</p>';
+const hospitalLayer = L.layerGroup().addTo(map);
+let userMarker = null;
+let userCircle = null;
+let userLat = null;
+let userLon = null;
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          userLat = position.coords.latitude;
-          userLon = position.coords.longitude;
-          initializeMap(userLat, userLon);
-          findNearbyHospitals(userLat, userLon);
-        },
-        (error) => {
-          console.error("Error mendapatkan lokasi:", error);
-          rsListContainer.innerHTML =
-            '<p class="loading-text">Izin lokasi ditolak. Mencoba dengan lokasi default (Bandung).</p>';
-          initializeMap(userLat, userLon);
-          findNearbyHospitals(userLat, userLon);
-        }
-      );
-    } else {
-      rsListContainer.innerHTML =
-        '<p class="loading-text">Browser tidak mendukung Geolocation. Menggunakan lokasi default.</p>';
-      initializeMap(userLat, userLon);
-      findNearbyHospitals(userLat, userLon);
-    }
-  }
+const statusText = document.getElementById("status");
+const resultsList = document.getElementById("rs-list");
 
-  async function findNearbyHospitals(lat, lon) {
-    rsListContainer.innerHTML =
-      '<p class="loading-text">Mencari Rumah Sakit Terdekat...</p>';
+// Fungsi Haversine: hasil meter.[web:57][web:59][web:69]
+function distanceMeters(lat1, lon1, lat2, lon2) {
+  const R = 6371000; // jari-jari bumi (m)
+  const toRad = (deg) => (deg * Math.PI) / 180;
 
-    const url = `https://nominatim.openstreetmap.org/search?q=hospital&format=json&limit=15&lat=${lat}&lon=${lon}&addressdetails=1&extratags=1&radius=5000`;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
 
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
+function formatKm(meters) {
+  const km = meters / 1000;
+  return km.toFixed(2); // 2 angka desimal
+}
 
-      map.eachLayer((layer) => {
-        if (
-          layer instanceof L.Marker &&
-          layer.getPopup().getContent() !== "Lokasi Anda"
-        ) {
-          map.removeLayer(layer);
-        }
-      });
+async function searchHospitalsNear(lat, lon, radiusKm = 5) {
+  const radiusMeters = radiusKm * 1000;
+  const overpassUrl = "https://overpass-api.de/api/interpreter";
 
-      if (data.length > 0) {
-        const results = data.map((item) => ({
-          name: item.display_name.split(",")[0].trim(),
-          lat: item.lat,
-          lon: item.lon,
-          distance: calculateDistance(
-            lat,
-            lon,
-            parseFloat(item.lat),
-            parseFloat(item.lon)
-          ),
-        }));
+  // Query Overpass: hospital (amenity=hospital) di sekitar user.[web:26][web:16]
+  const query = `
+        [out:json][timeout:25];
+        (
+          node["amenity"="hospital"](around:${radiusMeters},${lat},${lon});
+          way["amenity"="hospital"](around:${radiusMeters},${lat},${lon});
+          relation["amenity"="hospital"](around:${radiusMeters},${lat},${lon});
+        );
+        out center;
+      `;
 
-        results.sort((a, b) => a.distance.value - b.distance.value);
+  statusText.textContent =
+    "Mengambil data rumah sakit terdekat dari OpenStreetMap...";
+  hospitalLayer.clearLayers();
+  resultsList.innerHTML = "";
 
-        populateHospitalList(results);
+  try {
+    const response = await fetch(overpassUrl, {
+      method: "POST",
+      body: query,
+    });
+    if (!response.ok) throw new Error("Overpass API error");
 
-        results.forEach((rs) => {
-          L.marker([rs.lat, rs.lon])
-            .addTo(map)
-            .bindPopup(`<b>${rs.name}</b><br>${rs.distance.display}`);
-        });
-      } else {
-        rsListContainer.innerHTML =
-          '<p class="loading-text">Tidak ada Rumah Sakit ditemukan dalam radius 5km.</p>';
-      }
-    } catch (e) {
-      rsListContainer.innerHTML =
-        '<p class="loading-text" style="color: #dc3545;">Gagal terhubung ke API Nominatim.</p>';
-      console.error(e);
-    }
-  }
+    const data = await response.json();
+    const elements = data.elements || [];
+    const hospitals = [];
 
-  // FUNGSI UTILITY: Menghitung Jarak Haversine (Sederhana)
-  function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius Bumi dalam km
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * (Math.PI / 180)) *
-        Math.cos(lat2 * (Math.PI / 180)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distanceKm = R * c;
-
-    let displayDistance;
-    let distanceValue;
-
-    if (distanceKm < 1) {
-      distanceValue = Math.round(distanceKm * 1000);
-      displayDistance = `${distanceValue} m`;
-    } else {
-      distanceValue = Math.round(distanceKm * 10) / 10;
-      displayDistance = `${distanceValue} km`;
-    }
-
-    return { value: distanceKm, display: displayDistance };
-  }
-
-  function populateHospitalList(results) {
-    rsListContainer.innerHTML = "";
-
-    if (results.length === 0) {
-      rsListContainer.innerHTML =
-        '<p class="loading-text" style="text-align: center;">Tidak ada Rumah Sakit ditemukan dalam radius pencarian.</p>';
+    if (elements.length === 0) {
+      statusText.textContent =
+        "Tidak ada rumah sakit dalam radius sekitar lokasi Anda.";
       return;
     }
 
-    results.forEach((rs) => {
-      const listItem = document.createElement("div");
-      listItem.classList.add("rs-list-item");
+    statusText.textContent = `Ditemukan ${elements.length} rumah sakit di sekitar Anda.`;
 
-      listItem.innerHTML = `
-            <span class="rs-name">${rs.name}</span>
-            <span class="rs-distance">${rs.distance.display}</span>
-        `;
+    const bounds = [];
+    elements.forEach((el) => {
+      const latEl = el.lat || (el.center && el.center.lat);
+      const lonEl = el.lon || (el.center && el.center.lon);
+      if (!latEl || !lonEl) return;
 
-      rsListContainer.appendChild(listItem);
+      const name = (el.tags && el.tags.name) || "Rumah Sakit tanpa nama";
+      const addr =
+        (el.tags && el.tags["addr:full"]) ||
+        (el.tags && el.tags["addr:street"]) ||
+        "";
+
+      const distM = distanceMeters(lat, lon, latEl, lonEl);
+      const distKm = formatKm(distM);
+
+      hospitals.push({
+        lat: latEl,
+        lon: lonEl,
+        name,
+        addr,
+        distM,
+        distKm,
+      });
     });
-  }
 
-  searchButton.addEventListener("click", () => {
-    const location = locationInput.value.trim();
-    if (location.toLowerCase() === "dekat saya" || location === "") {
-      getLocationAndSearch(); // Mulai dari Geolocation
-    } else {
-      alert(
-        `Pencarian kustom untuk "${location}" belum diimplementasikan. Memuat RS terdekat dari lokasi Anda saat ini.`
+    hospitals.sort((a, b) => a.distM - b.distM);
+
+    hospitals.forEach((h, idx) => {
+      const marker = L.marker([h.lat, h.lon]).addTo(hospitalLayer);
+      marker.bindPopup(
+        `<b>${h.name}</b><br>Jarak: ${h.distKm} km<br>Lat: ${h.lat.toFixed(
+          6
+        )}, Lon: ${h.lon.toFixed(6)}${h.addr ? "<br>" + h.addr : ""}`
       );
-      getLocationAndSearch();
-    }
-  });
 
-  // Mulai proses saat halaman dimuat
-  getLocationAndSearch();
-});
+      bounds.push([h.lat, h.lon]);
+
+      const item = document.createElement("div");
+      item.className = "result-item";
+      item.textContent = `${idx + 1}. ${h.name} (${h.distKm} km)`;
+      item.onclick = () => {
+        map.setView([h.lat, h.lon], 16);
+        marker.openPopup();
+      };
+      resultsList.appendChild(item);
+    });
+
+    if (bounds.length > 0) {
+      bounds.push([lat, lon]);
+      map.fitBounds(bounds, { padding: [30, 30] });
+    }
+  } catch (err) {
+    console.error(err);
+    statusText.textContent =
+      "Terjadi kesalahan saat mengambil data rumah sakit. Coba lagi beberapa saat.";
+  }
+}
+
+function onLocationFound(e) {
+  const lat = e.latitude || e.latlng.lat;
+  const lon = e.longitude || e.latlng.lng;
+  const accuracy = e.accuracy || 0;
+  userLat = lat;
+  userLon = lon;
+
+  if (userMarker) map.removeLayer(userMarker);
+  if (userCircle) map.removeLayer(userCircle);
+
+  userMarker = L.marker([lat, lon]).addTo(map);
+  userMarker.bindPopup("Lokasi Anda").openPopup();
+
+  userCircle = L.circle([lat, lon], {
+    radius: accuracy,
+    weight: 1,
+    color: "blue",
+    fillColor: "#2196f3",
+    fillOpacity: 0.15,
+  }).addTo(map);
+
+  map.setView([lat, lon], 15);
+  statusText.textContent =
+    "Lokasi berhasil dideteksi. Mencari rumah sakit terdekat...";
+
+  searchHospitalsNear(lat, lon, 5); // radius 5km
+}
+
+function onLocationError(e) {
+  console.error(e);
+  statusText.textContent =
+    "Gagal mendapatkan lokasi. Izinkan akses lokasi di browser dan reload halaman.";
+  alert("Tidak bisa mengakses lokasi. Pastikan izin lokasi diaktifkan.");
+}
+
+// Geolocation (Leaflet locate memakai Geolocation API browser).[web:23][web:46]
+if ("geolocation" in navigator) {
+  map.locate({
+    setView: true,
+    maxZoom: 16,
+    enableHighAccuracy: true,
+  });
+  map.on("locationfound", onLocationFound);
+  map.on("locationerror", onLocationError);
+} else {
+  statusText.textContent = "Browser Anda tidak mendukung Geolocation API.";
+}

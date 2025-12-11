@@ -69,19 +69,19 @@
 .rs-container {
   display: flex;
   gap: 30px;
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
 .location-panel {
-  flex: 1;
+  flex: 1.7;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
 .map-card {
-  height: 300px;
+  height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -103,35 +103,13 @@
   padding: 2px;
 }
 
-#location-input {
-  width: 100%;
-  padding: 15px 50px 15px 15px;
-  border: none;
-  font-size: 1rem;
-  outline: none;
-  border-radius: 13px;
-}
-
-.input-arrow-btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  width: 50px;
-  background: transparent;
-  border: none;
-  color: #f29fa0;
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
 .list-panel {
   width: 100%;
   position: relative;
   flex: 1.5;
   background: #fff;
 
-  max-height: 380px;
+  max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -159,7 +137,7 @@
   padding: 0 23px 23px 23px;
 }
 
-.rs-list-item {
+.result-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -170,26 +148,8 @@
   min-height: 50px;
 }
 
-.rs-list-item:last-child {
-  border-bottom: none;
-}
-
-.rs-list-item:hover {
-  background-color: #f9f9f9;
-}
-
-.rs-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #333;
-  max-width: 70%;
-}
-
-.rs-distance {
-  font-size: 1rem;
-  font-weight: 700;
+.result-item:hover {
   color: #7bd0e4;
-  white-space: nowrap;
 }
 
 .loading-text {
