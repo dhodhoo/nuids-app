@@ -195,3 +195,10 @@ if ("geolocation" in navigator) {
 } else {
   statusText.textContent = "Browser Anda tidak mendukung Geolocation API.";
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const currentUser = localStorage.getItem("currentUser");
+  if (!currentUser) {
+    window.location.href = "/index.html";
+  }
+});

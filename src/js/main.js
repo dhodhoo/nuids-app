@@ -48,3 +48,10 @@ backgroundBlob.innerHTML = `<div class="container-blob">
     </div>`;
 
 document.body.prepend(backgroundBlob);
+
+const icon = document.createElement("link");
+icon.rel = "icon";
+icon.href = "/public/images/logo.png";
+icon.type = "image/x-icon";
+
+document.head.prepend(icon);

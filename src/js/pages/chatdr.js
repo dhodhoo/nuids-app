@@ -112,6 +112,10 @@ const DOCTORS_DATA = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  const currentUser = localStorage.getItem("currentUser");
+  if (!currentUser) {
+    window.location.href = "/index.html";
+  }
   // IMPORTANT: Validate chat access first
   if (!validateChatAccess()) {
     return; // Stop execution if validation fails
@@ -208,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("doctor-avatar").src = doctor.img;
       document.getElementById("doctor-name").textContent = doctor.name;
       document.getElementById("doctor-status").textContent =
-        doctor.status === "online" ? "Online" : "Offline";
+        doctor.status === "available" ? "Online" : "Offline";
     }
   }
 

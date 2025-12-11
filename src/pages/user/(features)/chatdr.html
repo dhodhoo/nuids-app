@@ -16,7 +16,10 @@
     <div class="chat-container">
       <!-- Header Section -->
       <div class="chat-header">
-        <button class="back-btn" onclick="window.history.back()">
+        <button
+          class="back-btn"
+          onclick="window.location.href = '/src/pages/user/(features)/doctor.html'"
+        >
           <i class="fas fa-arrow-left"></i>
         </button>
         <div class="doctor-info">
@@ -63,6 +66,7 @@
     </div>
 
     <script src="../../../js/main.js"></script>
+    <script src="/src/js/utils/auth.js"></script>
     <script src="/src/js/utils/storage.js"></script>
     <script src="/src/js/pages/chatdr.js"></script>
   </body>

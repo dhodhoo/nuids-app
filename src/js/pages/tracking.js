@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const currentUser = localStorage.getItem("currentUser");
+  if (!currentUser) {
+    window.location.href = "/index.html";
+  }
   const dropArea = document.getElementById("drop-area");
   const foodPict = document.getElementById("food-picture");
   const imgView = document.getElementById("img-view");

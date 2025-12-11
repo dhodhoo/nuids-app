@@ -1,11 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const head = document.head;
+  const font = document.createElement("link");
+  font.href =
+    "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap";
+  font.rel = "stylesheet";
+
+  head.append(font);
+
   const header = document.createElement("header");
   header.innerHTML = `<div class="container">
       <div class="profile-section">
         <a href="#profile" class="profile-link">
           <div class="avatar">
             <img
-              src="https://i.pinimg.com/736x/a4/6f/7f/a46f7f6064eef49616cf7c1ef00e9b96.jpg"
+              src="https://images.unsplash.com/photo-1740252117044-2af197eea287"
               alt="Avatar"
               onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM3NzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjAgMjF2LTJhNCA0IDAgMCAwLTQtNEg4YTQgNCAwIDAgMC00IDR2MiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iNyIgcj0iNCIvPjwvc3ZnPg=='"
             />
@@ -29,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <ul class="nav-menu">
           <li><a href="/src/pages/user/home.html" class="nav-link">Home</a></li>
           <li><a href="/src/pages/user/features.html" class="nav-link">Features</a></li>
-          <li><a href="#" class="nav-link">About Us</a></li>
+          <li><a href="/src/pages/user/about.html" class="nav-link">About Us</a></li>
           <li><a href="#" class="nav-link">Contact Us</a></li>
           <li>
             <a id="logoutBtn" class="button-logout" href="#">

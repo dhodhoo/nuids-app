@@ -108,6 +108,10 @@ const DOCTORS_DATA = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  const currentUser = localStorage.getItem("currentUser");
+  if (!currentUser) {
+    window.location.href = "/index.html";
+  }
   const modal = document.getElementById("doctorModal");
   const closeBtn = document.querySelector(".close-btn");
   const modalBody = document.getElementById("modal-body");

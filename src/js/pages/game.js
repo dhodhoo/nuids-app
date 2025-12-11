@@ -381,6 +381,10 @@ document.getElementById("startRunnerButton").addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  const currentUser = localStorage.getItem("currentUser");
+  if (!currentUser) {
+    window.location.href = "/index.html";
+  }
   generateRandomFoods();
   feedButton.disabled = true;
 });
