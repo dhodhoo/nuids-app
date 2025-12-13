@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Artikel Edukasi | Nuids</title>
+    <link rel="stylesheet" href="/src/styles/user/features/articles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+    <link rel="stylesheet" href="/src/lib/background-blob.css" />
+  </head>
+  <body>
+    <div class="articles-container">
+      <!-- Header -->
+      <div class="articles-header">
+        
+        <div class="header-content">
+          <h1>Artikel Edukasi</h1>
+          <p>Baca artikel terkini seputar parenting dan kesehatan anak</p>
+        </div>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="search-filter-section">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Cari artikel tentang parenting, MPASI, stunting..."
+          />
+          <button id="searchBtn" class="btn-search">Cari</button>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+          <button class="tab-btn active" data-category="all">
+            <i class="fas fa-th"></i>
+            Semua
+          </button>
+          <button class="tab-btn" data-category="parenting">
+            <i class="fas fa-heart"></i>
+            Parenting
+          </button>
+          <button class="tab-btn" data-category="nutrition">
+            <i class="fas fa-apple-alt"></i>
+            Nutrisi
+          </button>
+          <button class="tab-btn" data-category="health">
+            <i class="fas fa-heartbeat"></i>
+            Kesehatan
+          </button>
+          <button class="tab-btn" data-category="development">
+            <i class="fas fa-child"></i>
+            Tumbuh Kembang
+          </button>
+          <button class="tab-btn" data-category="tips">
+            <i class="fas fa-lightbulb"></i>
+            Tips & Trick
+          </button>
+        </div>
+      </div>
+
+      <!-- Featured Article -->
+      <div class="featured-section">
+        <h2>⭐ Artikel Pilihan</h2>
+        <div class="featured-article" id="featuredArticle">
+          <!-- Will be filled by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="articles-section">
+        <div class="section-header">
+          <h2>📖 Artikel Terbaru</h2>
+          <div class="sort-options">
+            <label>Urutkan:</label>
+            <select id="sortSelect">
+              <option value="newest">Terbaru</option>
+              <option value="oldest">Terlama</option>
+              <option value="popular">Terpopuler</option>
+              <option value="trending">Trending</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Memuat artikel...</p>
+        </div>
+
+        <!-- Articles Grid -->
+        <div class="articles-grid" id="articlesGrid">
+          <!-- Will be filled by JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none">
+          <i class="fas fa-inbox"></i>
+          <h3>Tidak ada artikel ditemukan</h3>
+          <p>Coba ubah kata kunci atau filter pencarian Anda</p>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="load-more-container">
+          <button class="btn-load-more" id="loadMoreBtn" style="display: none">
+            <i class="fas fa-chevron-down"></i>
+            Muat Lebih Banyak
+          </button>
+        </div>
+      </div>
+
+    <!-- Article Detail Modal -->
+    <div class="modal" id="articleModal">
+      <div class="modal-backdrop" id="modalBackdrop"></div>
+      <div class="modal-content">
+        <button class="modal-close" id="closeModal">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-body" id="articleDetail">
+          <!-- Will be filled by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <script src="/src/js/main.js"></script>
+    <script src="/src/components/Header.js"></script>
+    <script src="/src/js/utils/auth.js"></script>
+    <script src="/src/js/pages/articles.js"></script>
+  </body>
+</html>
