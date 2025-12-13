@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile | Nuids</title>
+    <link rel="stylesheet" href="/src/styles/user/features/profile.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+    <link rel="stylesheet" href="/src/lib/background-blob.css" />
+  </head>
+  <body style="background-color: #f8f8f8">
+    <div class="profile-container">
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <button class="back-btn" onclick="window.history.back()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1>Profile Saya</h1>
+        <div class="header-spacer"></div>
+      </div>
+
+      <!-- Profile Avatar Section -->
+      <div class="profile-avatar-section">
+        <div class="avatar-wrapper">
+          <div class="avatar-large" id="profileAvatar">
+            <img
+              id="avatarImage"
+              src="https://images.unsplash.com/photo-1740252117044-2af197eea287"
+              alt="Profile"
+              onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM3NzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjAgMjF2LTJhNCA0IDAgMCAwLTQtNEg4YTQgNCAwIDAgMC00IDR2MiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iNyIgcj0iNCIvPjwvc3ZnPg=='"
+            />
+          </div>
+          <button class="change-avatar-btn" id="changeAvatarBtn">
+            <i class="fas fa-camera"></i>
+          </button>
+        </div>
+        <h2 id="profileName">Loading...</h2>
+        <p class="profile-email" id="profileEmail">loading@email.com</p>
+      </div>
+
+      <!-- Profile Tabs -->
+      <div class="profile-tabs">
+        <button class="tab-btn active" data-tab="personal">
+          <i class="fas fa-user"></i>
+          <span>Data Pribadi</span>
+        </button>
+        <button class="tab-btn" data-tab="children">
+          <i class="fas fa-child"></i>
+          <span>Data Anak</span>
+        </button>
+        <button class="tab-btn" data-tab="security">
+          <i class="fas fa-lock"></i>
+          <span>Keamanan</span>
+        </button>
+      </div>
+
+      <!-- Tab Content -->
+      <div class="tab-content">
+        <!-- Personal Data Tab -->
+        <div class="tab-pane active" id="personal">
+          <form id="personalDataForm">
+            <div class="form-section">
+              <h3><i class="fas fa-user-circle"></i> Informasi Pribadi</h3>
+
+              <div class="form-group">
+                <label for="fullName">
+                  <i class="fas fa-signature"></i> Nama Lengkap
+                </label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  required
+                  placeholder="Masukkan nama lengkap"
+                />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">
+                    <i class="fas fa-envelope"></i> Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="email@example.com"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="phone">
+                    <i class="fas fa-phone"></i> No. Telepon
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="08xxxxxxxxxx"
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="birthDate">
+                    <i class="fas fa-birthday-cake"></i> Tanggal Lahir
+                  </label>
+                  <input type="date" id="birthDate" name="birthDate" />
+                </div>
+
+                <div class="form-group">
+                  <label for="gender">
+                    <i class="fas fa-venus-mars"></i> Jenis Kelamin
+                  </label>
+                  <select id="gender" name="gender">
+                    <option value="">Pilih jenis kelamin</option>
+                    <option value="male">Laki-laki</option>
+                    <option value="female">Perempuan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="address">
+                  <i class="fas fa-map-marker-alt"></i> Alamat
+                </label>
+                <textarea
+                  id="address"
+                  name="address"
+                  rows="3"
+                  placeholder="Masukkan alamat lengkap"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-save"></i> Simpan Perubahan
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Children Data Tab -->
+        <div class="tab-pane" id="children">
+          <div class="children-header">
+            <h3><i class="fas fa-child"></i> Data Anak</h3>
+            <button class="btn-add-child" id="addChildBtn">
+              <i class="fas fa-plus"></i> Tambah Anak
+            </button>
+          </div>
+
+          <div class="children-list" id="childrenList">
+            <!-- Children cards will be dynamically inserted here -->
+            <div class="empty-state">
+              <i class="fas fa-baby"></i>
+              <p>Belum ada data anak</p>
+              <small>Klik tombol "Tambah Anak" untuk menambahkan</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Tab -->
+        <div class="tab-pane" id="security">
+          <form id="securityForm">
+            <div class="form-section">
+              <h3><i class="fas fa-key"></i> Ubah Password</h3>
+
+              <div class="form-group">
+                <label for="currentPassword">
+                  <i class="fas fa-lock"></i> Password Saat Ini
+                </label>
+                <div class="password-input">
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    name="currentPassword"
+                    required
+                    placeholder="Masukkan password saat ini"
+                  />
+                  <button
+                    type="button"
+                    class="toggle-password"
+                    data-target="currentPassword"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="newPassword">
+                  <i class="fas fa-lock"></i> Password Baru
+                </label>
+                <div class="password-input">
+                  <input
+                    type="password"
+                    id="newPassword"
+                    name="newPassword"
+                    required
+                    placeholder="Minimal 8 karakter"
+                  />
+                  <button
+                    type="button"
+                    class="toggle-password"
+                    data-target="newPassword"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+                <small class="help-text">Password minimal 8 karakter</small>
+              </div>
+
+              <div class="form-group">
+                <label for="confirmPassword">
+                  <i class="fas fa-lock"></i> Konfirmasi Password Baru
+                </label>
+                <div class="password-input">
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    required
+                    placeholder="Ulangi password baru"
+                  />
+                  <button
+                    type="button"
+                    class="toggle-password"
+                    data-target="confirmPassword"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-check"></i> Update Password
+              </button>
+            </div>
+          </form>
+
+          <!-- Danger Zone -->
+          <div class="form-section danger-zone">
+            <h3><i class="fas fa-exclamation-triangle"></i> Zona Berbahaya</h3>
+            <p>
+              Tindakan berikut bersifat permanen dan tidak dapat dibatalkan.
+            </p>
+            <button class="btn-danger" id="deleteAccountBtn">
+              <i class="fas fa-trash-alt"></i> Hapus Akun
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Add/Edit Child -->
+    <div id="childModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="childModalTitle">Tambah Data Anak</h3>
+          <button class="close-btn" id="closeChildModal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form id="childForm">
+          <input type="hidden" id="childId" />
+
+          <div class="form-group">
+            <label for="childName">Nama Anak *</label>
+            <input
+              type="text"
+              id="childName"
+              required
+              placeholder="Nama lengkap anak"
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="childGender">Jenis Kelamin *</label>
+              <select id="childGender" required>
+                <option value="">Pilih</option>
+                <option value="male">Laki-laki</option>
+                <option value="female">Perempuan</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="childBirthDate">Tanggal Lahir *</label>
+              <input type="date" id="childBirthDate" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="childWeight">Berat Badan (kg)</label>
+              <input
+                type="number"
+                id="childWeight"
+                step="0.1"
+                placeholder="0.0"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="childHeight">Tinggi Badan (cm)</label>
+              <input
+                type="number"
+                id="childHeight"
+                step="0.1"
+                placeholder="0.0"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="childNotes">Catatan (opsional)</label>
+            <textarea
+              id="childNotes"
+              rows="3"
+              placeholder="Alergi, kondisi khusus, dll"
+            ></textarea>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-secondary" id="cancelChildBtn">
+              Batal
+            </button>
+            <button type="submit" class="btn-primary">
+              <i class="fas fa-save"></i> Simpan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal: Avatar Selection -->
+    <div id="avatarModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Pilih Avatar</h3>
+          <button class="close-btn" id="closeAvatarModal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="avatar-grid" id="avatarGrid">
+          <!-- Avatar options will be generated here -->
+        </div>
+      </div>
+    </div>
+
+    <script src="/src/js/main.js"></script>
+    <script src="/src/js/utils/auth.js"></script>
+    <script src="/src/components/Sidebar.js"></script>
+    <script src="/src/js/pages/profile.js"></script>
+  </body>
+</html>

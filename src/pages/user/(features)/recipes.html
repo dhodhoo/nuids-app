@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resep Bergizi | Nuids</title>
+    <link rel="stylesheet" href="/src/styles/user/features/recipes.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../../../styles/global.css" />
+    <link rel="stylesheet" href="../../../../src/lib/background-blob.css" />
+  </head>
+  <body>
+    <div class="recipes-container">
+      <!-- Header -->
+      <div class="recipes-header">
+        <div class="header-content">
+          <h1>Resep Makanan Bergizi</h1>
+          <p>Temukan resep sehat untuk anak Anda</p>
+        </div>
+      </div>
+
+      <!-- Search Section -->
+      <div class="search-section">
+        <div class="search-box">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Cari resep... (contoh: chicken soup, pasta, salad)"
+          />
+          <button id="searchBtn">
+            <span>Cari</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+          <div class="filter-item">
+            <i class="fas fa-leaf"></i>
+            <select id="dietFilter">
+              <option value="">Semua Diet</option>
+              <option value="vegetarian">Vegetarian</option>
+              <option value="vegan">Vegan</option>
+              <option value="gluten-free">Gluten Free</option>
+              <option value="dairy-free">Dairy Free</option>
+            </select>
+          </div>
+
+          <div class="filter-item">
+            <i class="fas fa-child"></i>
+            <select id="ageFilter">
+              <option value="">Usia Anak</option>
+              <option value="baby">6-12 bulan</option>
+              <option value="toddler">1-3 tahun</option>
+              <option value="preschool">3-5 tahun</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Suggestions -->
+      <div class="suggestions-section">
+        <h3>✨ Pencarian Populer</h3>
+        <div class="suggestions">
+          <button class="suggestion-chip" data-query="baby food">
+            <i class="fas fa-baby"></i> Baby Food
+          </button>
+          <button class="suggestion-chip" data-query="chicken soup">
+            <i class="fas fa-drumstick-bite"></i> Chicken Soup
+          </button>
+          <button class="suggestion-chip" data-query="vegetable">
+            <i class="fas fa-carrot"></i> Sayuran
+          </button>
+          <button class="suggestion-chip" data-query="pasta">
+            <i class="fas fa-pizza-slice"></i> Pasta
+          </button>
+          <button class="suggestion-chip" data-query="healthy snack">
+            <i class="fas fa-cookie"></i> Snack Sehat
+          </button>
+          <button class="suggestion-chip" data-query="smoothie">
+            <i class="fas fa-blender"></i> Smoothie
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="loading" class="loading" style="display: none">
+        <div class="spinner"></div>
+        <p>Mencari resep terbaik untuk Anda...</p>
+      </div>
+
+      <!-- Results -->
+      <div id="recipesGrid" class="recipes-grid"></div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state" style="display: none">
+        <div class="empty-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <h3>Tidak ada resep ditemukan</h3>
+        <p>Coba kata kunci lain atau gunakan filter di atas</p>
+      </div>
+    </div>
+
+    <!-- Recipe Detail Modal -->
+    <div id="recipeModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <button class="close-btn" id="closeModal">
+          <i class="fas fa-times"></i>
+        </button>
+        <div id="recipeDetail"></div>
+      </div>
+    </div>
+
+    <script src="/src/js/main.js"></script>
+    <script src="/src/components/Header.js"></script>
+    <script src="/src/js/utils/auth.js"></script>
+    <script src="/src/js/pages/recipes.js"></script>
+  </body>
+</html>

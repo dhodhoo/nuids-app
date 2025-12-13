@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kalkulator BMI Anak | Nuids</title>
+    <link
+      rel="stylesheet"
+      href="/src/styles/user/features/bmi-calculator.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+    <link rel="stylesheet" href="/src/lib/background-blob.css" />
+  </head>
+  <body>
+    <div class="bmi-container">
+      <!-- Header -->
+      <div class="bmi-header">
+        <div class="header-content">
+          <h1>Kalkulator BMI Anak</h1>
+          <p>Hitung Body Mass Index (BMI) dan cek status gizi anak Anda</p>
+        </div>
+      </div>
+
+      <!-- Calculator Section -->
+      <div class="calculator-section">
+        <div class="calculator-card">
+          <h2>💡 Masukkan Data Anak</h2>
+
+          <form id="bmiForm">
+            <!-- Gender -->
+            <div class="form-group">
+              <label> <i class="fas fa-child"></i> Jenis Kelamin </label>
+              <div class="gender-options">
+                <label class="gender-card">
+                  <input type="radio" name="gender" value="male" checked />
+                  <div class="gender-content">
+                    <i class="fas fa-mars"></i>
+                    <span>Laki-laki</span>
+                  </div>
+                </label>
+                <label class="gender-card female">
+                  <input type="radio" name="gender" value="female" />
+                  <div class="gender-content female">
+                    <i class="fas fa-venus"></i>
+                    <span>Perempuan</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Age -->
+            <div class="form-group">
+              <label for="age">
+                <i class="fas fa-birthday-cake"></i> Usia Anak
+              </label>
+              <div class="input-with-unit">
+                <input
+                  type="number"
+                  id="age"
+                  name="age"
+                  min="0"
+                  max="18"
+                  step="0.1"
+                  placeholder="Contoh: 2.5"
+                  required
+                />
+                <span class="unit">tahun</span>
+              </div>
+              <small class="help-text"
+                >Usia 0-18 tahun (bisa desimal, contoh: 2.5 tahun)</small
+              >
+            </div>
+
+            <!-- Weight -->
+            <div class="form-group">
+              <label for="weight">
+                <i class="fas fa-weight"></i> Berat Badan
+              </label>
+              <div class="input-with-unit">
+                <input
+                  type="number"
+                  id="weight"
+                  name="weight"
+                  min="1"
+                  max="200"
+                  step="0.1"
+                  placeholder="Contoh: 12.5"
+                  required
+                />
+                <span class="unit">kg</span>
+              </div>
+            </div>
+
+            <!-- Height -->
+            <div class="form-group">
+              <label for="height">
+                <i class="fas fa-ruler-vertical"></i> Tinggi Badan
+              </label>
+              <div class="input-with-unit">
+                <input
+                  type="number"
+                  id="height"
+                  name="height"
+                  min="30"
+                  max="200"
+                  step="0.1"
+                  placeholder="Contoh: 85.5"
+                  required
+                />
+                <span class="unit">cm</span>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-calculate">
+              <i class="fas fa-calculator"></i>
+              Hitung BMI
+            </button>
+          </form>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-section" id="resultSection">
+          <div class="result-card">
+            <h2>📈 Hasil Perhitungan BMI</h2>
+
+            <!-- BMI Score -->
+            <div class="bmi-score" id="bmiScore">
+              <div class="score-value" id="bmiValue">-</div>
+              <div class="score-label">BMI Score</div>
+            </div>
+
+            <!-- Status Badge -->
+            <div class="status-badge" id="statusBadge">
+              <span id="statusText">-</span>
+            </div>
+
+            <!-- Status Description -->
+            <div class="status-description" id="statusDescription">
+              <p>Status gizi anak Anda saat ini...</p>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="recommendations" id="recommendations">
+              <h3><i class="fas fa-lightbulb"></i> Rekomendasi</h3>
+              <ul id="recommendationList">
+                <!-- Dinamis dari JS -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ideal Range Table -->
+      <div class="ideal-range-section">
+        <h2>📋 Tabel Berat & Tinggi Ideal Berdasarkan Usia</h2>
+
+        <!-- Gender Toggle -->
+        <div class="table-gender-toggle">
+          <button class="toggle-btn active" data-gender="male">
+            <i class="fas fa-mars"></i> Laki-laki
+          </button>
+          <button class="toggle-btn" data-gender="female">
+            <i class="fas fa-venus"></i> Perempuan
+          </button>
+        </div>
+
+        <!-- Table Male -->
+        <div class="ideal-table" id="tableMale">
+          <table>
+            <thead>
+              <tr>
+                <th>Usia</th>
+                <th>Berat Ideal (kg)</th>
+                <th>Tinggi Ideal (cm)</th>
+                <th>BMI Normal</th>
+              </tr>
+            </thead>
+            <tbody id="tableMaleBody">
+              <!-- Data akan diisi oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Table Female -->
+        <div class="ideal-table" id="tableFemale" style="display: none">
+          <table>
+            <thead>
+              <tr>
+                <th>Usia</th>
+                <th>Berat Ideal (kg)</th>
+                <th>Tinggi Ideal (cm)</th>
+                <th>BMI Normal</th>
+              </tr>
+            </thead>
+            <tbody id="tableFemaleBody">
+              <!-- Data akan diisi oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Info Section -->
+      <div class="info-section">
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-info-circle"></i>
+          </div>
+          <div class="info-content">
+            <h3>Apa itu BMI?</h3>
+            <p>
+              Body Mass Index (BMI) atau Indeks Massa Tubuh adalah ukuran yang
+              digunakan untuk menilai apakah berat badan seseorang sesuai dengan
+              tinggi badannya. BMI dihitung dengan rumus:
+              <strong>Berat (kg) / (Tinggi (m))²</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon warning">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="info-content">
+            <h3>Catatan Penting</h3>
+            <p>
+              BMI hanyalah salah satu indikator status gizi. Untuk penilaian
+              yang lebih akurat dan komprehensif, konsultasikan dengan dokter
+              anak atau ahli gizi profesional.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/src/js/main.js"></script>
+    <script src="/src/components/Header.js"></script>
+    <script src="/src/js/utils/auth.js"></script>
+    <script src="/src/js/pages/bmi-calculator.js"></script>
+  </body>
+</html>

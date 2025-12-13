@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Assistant | Nuids</title>
+    <link rel="stylesheet" href="/src/styles/user/features/chatbot.css" />
+    <link rel="stylesheet" href="../../../styles/global.css" />
+    <link rel="stylesheet" href="../../../../src/lib/background-blob.css" />
+  </head>
+  <body style="background-color: #f2f2f2">
+    <div class="chat-container">
+      <!-- Header -->
+      <div class="chat-header">
+        <button class="back-btn" onclick="window.history.back()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="ai-info">
+          <div class="ai-avatar" style="overflow: hidden">
+            <img
+              src="https://img.freepik.com/free-vector/graident-ai-robot-vectorart_78370-4114.jpg"
+              alt=""
+              width="100%"
+              style="object-fit: cover"
+            />
+          </div>
+          <div class="ai-details">
+            <h3>Nuids AI Assistant</h3>
+            <span class="status-indicator">
+              <i class="fas fa-circle"></i> Online
+            </span>
+          </div>
+        </div>
+        <button class="menu-btn" id="clearChatBtn" title="Clear Chat">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+
+      <!-- Chat Messages Area -->
+      <div class="chat-messages" id="chatMessages">
+        <!-- Welcome Message -->
+        <div class="message ai-message">
+          <div class="message-avatar">
+            <img
+              src="https://img.freepik.com/free-vector/graident-ai-robot-vectorart_78370-4114.jpg"
+              alt=""
+              width="100%"
+              style="object-fit: cover; border-radius: 50%"
+            />
+          </div>
+          <div class="message-bubble">
+            <div class="message-text">
+              👋 Halo! Saya adalah AI Assistant Nuids yang siap membantu Anda
+              dengan informasi seputar kesehatan dan gizi anak.<br /><br />
+
+              Saya dapat membantu Anda dengan:<br />
+              • Informasi nutrisi dan gizi anak<br />
+              • Tips MPASI dan menu makanan sehat<br />
+              • Pencegahan stunting<br />
+              • Tumbuh kembang anak<br />
+              • Pertanyaan umum kesehatan anak<br /><br />
+
+              Silakan tanyakan apa saja! 😊
+            </div>
+            <span class="message-time">Sekarang</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div class="typing-indicator" id="typingIndicator" style="display: none">
+        <div class="typing-avatar">
+          <img
+            src="https://img.freepik.com/free-vector/graident-ai-robot-vectorart_78370-4114.jpg"
+            alt=""
+            width="100%"
+            style="object-fit: cover; border-radius: 50%"
+          />
+        </div>
+        <div class="typing-dots">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+
+      <!-- Suggested Questions -->
+      <div class="suggestions-container" id="suggestionsContainer">
+        <div class="suggestions-title">Pertanyaan yang sering ditanyakan:</div>
+        <div class="suggestions">
+          <button
+            class="suggestion-btn"
+            data-question="Apa saja tanda-tanda stunting pada anak?"
+          >
+            <i class="fas fa-question-circle"></i> Tanda-tanda stunting
+          </button>
+          <button
+            class="suggestion-btn"
+            data-question="Bagaimana cara membuat MPASI yang baik?"
+          >
+            <i class="fas fa-utensils"></i> Tips MPASI
+          </button>
+          <button
+            class="suggestion-btn"
+            data-question="Nutrisi apa yang penting untuk anak usia 1-2 tahun?"
+          >
+            <i class="fas fa-carrot"></i> Nutrisi anak
+          </button>
+          <button
+            class="suggestion-btn"
+            data-question="Berapa berat badan ideal untuk anak usia 6 bulan?"
+          >
+            <i class="fas fa-weight"></i> Berat badan ideal
+          </button>
+        </div>
+      </div>
+
+      <!-- Input Section -->
+      <div class="chat-input-container">
+        <button class="attach-btn" title="Coming Soon" disabled>
+          <i class="fas fa-paperclip"></i>
+        </button>
+        <textarea
+          id="messageInput"
+          class="message-input"
+          placeholder="Ketik pertanyaan Anda tentang kesehatan anak..."
+          rows="1"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" disabled>
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="loading-modal">
+      <div class="loading-content">
+        <div class="loader"></div>
+        <p>Memproses pertanyaan Anda...</p>
+      </div>
+    </div>
+
+    <script src="/src/js/main.js"></script>
+    <script src="/src/components/Sidebar.js"></script>
+    <script src="/src/js/utils/auth.js"></script>
+    <script src="/src/js/pages/chatbot.js"></script>
+  </body>
+</html>

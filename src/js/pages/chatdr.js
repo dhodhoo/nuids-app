@@ -116,10 +116,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!currentUser) {
     window.location.href = "/index.html";
   }
+
   // IMPORTANT: Validate chat access first
   if (!validateChatAccess()) {
     return; // Stop execution if validation fails
   }
+
   const chatMessages = document.getElementById("chat-messages");
   const messageInput = document.getElementById("message-input");
   const sendBtn = document.getElementById("send-btn");
@@ -181,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="btn-primary" onclick="window.location.href='doctor.html'">
             <i class="fas fa-calendar-plus"></i> Booking Sekarang
           </button>
-          <button class="btn-secondary" onclick="window.location.href='/src/pages/user/(features)/doctor.html'">
+          <button class="btn-primary" onclick="window.location.href='/src/pages/user/(features)/doctor.html'">
             <i class="fas fa-arrow-left"></i> Kembali
           </button>
         </div>
@@ -215,6 +217,9 @@ document.addEventListener("DOMContentLoaded", () => {
         doctor.status === "available" ? "Online" : "Offline";
     }
   }
+
+  const typingAvatar = document.getElementById("typing-avatar");
+  typingAvatar.src = DOCTORS_DATA[doctorId].img;
 
   // Function to load initial messages
   function loadInitialMessages() {
@@ -253,20 +258,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 500);
   }
 
-  // Function to add message to chat
+  // ✅ UPDATED: Function to add message to chat WITH AVATAR
   function addMessage(text, sender, time) {
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${sender}`;
 
-    messageDiv.innerHTML = `
-      <div class="message-bubble">
-        ${text}
-        <span class="message-time">${time}</span>
-      </div>
-    `;
+    if (sender === "doctor") {
+      // Doctor message with avatar
+      const doctor = DOCTORS_DATA[doctorId];
+      messageDiv.innerHTML = `
+        <div class="message-avatar">
+          <img src="${doctor.img}" alt="${doctor.name}" />
+        </div>
+        <div class="message-bubble">
+          ${escapeHtml(text)}
+          <span class="message-time">${time}</span>
+        </div>
+      `;
+    } else {
+      // User message with avatar
+      messageDiv.innerHTML = `
+        <div class="message-bubble">
+          ${escapeHtml(text)}
+          <span class="message-time">${time}</span>
+        </div>
+        <div class="message-avatar user-avatar">
+          <img src="https://images.unsplash.com/photo-1740252117044-2af197eea287" alt="Doctor" />
+        </div>
+      `;
+    }
 
     chatMessages.appendChild(messageDiv);
     scrollToBottom();
+  }
+
+  // Helper function to escape HTML
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
   }
 
   // Function to add date separator

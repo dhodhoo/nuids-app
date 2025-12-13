@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us | Nuids</title>
+    <link rel="stylesheet" href="/src/styles/pages/contact.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+    <link rel="stylesheet" href="/src/lib/background-blob.css" />
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  </head>
+  <body>
+    <div class="contact-container">
+      <!-- Header -->
+      <div class="contact-header">
+        <h1>Hubungi Kami</h1>
+      </div>
+
+      <div class="contact-content">
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <h3>Email</h3>
+            <p>info.nuids@proton.me</p>
+            <a href="mailto:info.nuids@proton.me">Kirim Email</a>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <h3>Telepon</h3>
+            <p>+62 812-3456-7890</p>
+            <a href="tel:+6281234567890">Hubungi Kami</a>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <h3>Alamat</h3>
+            <p>Jl. Gizi Sehat No. 10, Bandung, Indonesia</p>
+            <a target="_blank" href="https://maps.app.goo.gl/R9MTg8FHNPwDaHHq7"
+              >Lihat di Maps</a
+            >
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <h3>Jam Operasional</h3>
+            <p>Senin - Jumat: 09:00 - 17:00</p>
+            <p>Sabtu - Minggu: Tutup</p>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form-wrapper">
+          <div class="form-header">
+            <h2>Kirim Pesan</h2>
+            <p>Isi formulir di bawah dan kami akan segera menghubungi Anda</p>
+          </div>
+
+          <form id="contactForm" class="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">
+                  <i class="fas fa-user"></i> Nama Lengkap *
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="from_name"
+                  required
+                  placeholder="Masukkan nama Anda"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">
+                  <i class="fas fa-envelope"></i> Email *
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="reply_to"
+                  required
+                  placeholder="email@example.com"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">
+                  <i class="fas fa-phone"></i> No. Telepon
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone_number"
+                  placeholder="08xxxxxxxxxx"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="subject">
+                  <i class="fas fa-tag"></i> Subjek *
+                </label>
+                <select id="subject" name="subject" required>
+                  <option value="">Pilih subjek</option>
+                  <option value="Pertanyaan Umum">Pertanyaan Umum</option>
+                  <option value="Konsultasi Gizi">Konsultasi Gizi</option>
+                  <option value="Keluhan/Masalah">Keluhan/Masalah</option>
+                  <option value="Saran & Kritik">Saran & Kritik</option>
+                  <option value="Kerjasama">Kerjasama</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="message">
+                <i class="fas fa-comment-alt"></i> Pesan *
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows="6"
+                required
+                placeholder="Tulis pesan Anda di sini..."
+              ></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" id="submitBtn">
+                <i class="fas fa-paper-plane"></i>
+                <span>Kirim Pesan</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Success Message -->
+          <div
+            class="success-message"
+            id="successMessage"
+            style="display: none"
+          >
+            <div class="success-content">
+              <i class="fas fa-check-circle"></i>
+              <h3>Pesan Terkirim!</h3>
+              <p>
+                Terima kasih telah menghubungi kami. Kami akan segera merespons
+                pesan Anda.
+              </p>
+              <button class="btn-primary" onclick="closeSuccessMessage()">
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Nuids</h4>
+          <p>Solusi digital untuk kesehatan dan gizi anak Indonesia</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/index.html">Beranda</a></li>
+            <li><a href="/src/pages/user/about.html">Tentang Kami</a></li>
+            <li><a href="/src/pages/user/(features)/doctor.html">Dokter</a></li>
+            <li><a href="#">Artikel</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Hubungi Kami</h4>
+          <ul>
+            <li><i class="fas fa-envelope"></i> info.nuids@proton.me</li>
+            <li><i class="fas fa-phone"></i> +62 812-3456-7890</li>
+            <li>
+              <i class="fas fa-map-marker-alt"></i> Jl. Gizi Sehat No. 10,
+              Bandung, Indonesia
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Nuids. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="loader"></div>
+      <p>Mengirim pesan...</p>
+    </div>
+
+    <script src="/src/js/main.js"></script>
+    <script src="/src/components/Header.js"></script>
+    <script src="/src/js/utils/auth.js"></script>
+    <script src="/src/js/pages/contact.js"></script>
+  </body>
+</html>

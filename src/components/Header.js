@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const header = document.createElement("header");
   header.innerHTML = `<div class="container">
       <div class="profile-section">
-        <a href="#profile" class="profile-link">
+        <a href="/src/pages/user/profile.html" class="profile-link">
           <div class="avatar">
             <img
               src="https://images.unsplash.com/photo-1740252117044-2af197eea287"
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <li><a href="/src/pages/user/home.html" class="nav-link">Home</a></li>
           <li><a href="/src/pages/user/features.html" class="nav-link">Features</a></li>
           <li><a href="/src/pages/user/about.html" class="nav-link">About Us</a></li>
-          <li><a href="#" class="nav-link">Contact Us</a></li>
+          <li><a href="/src/pages/user/contact.html" class="nav-link">Contact Us</a></li>
           <li>
             <a id="logoutBtn" class="button-logout" href="#">
               <button class="css-button-logout">LogOut</button>

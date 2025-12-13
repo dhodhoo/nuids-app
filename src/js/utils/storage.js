@@ -69,6 +69,7 @@ const StorageManager = {
     const now = new Date();
     const daysDiff = (appointmentDateTime - now) / (1000 * 60 * 60 * 24);
 
+    console.log(daysDiff);
     // Allow chat 1 day before until 7 days after appointment
     if (daysDiff < -7) {
       return {
@@ -77,10 +78,10 @@ const StorageManager = {
       };
     }
 
-    if (daysDiff > 1) {
+    if (daysDiff < -1) {
       return {
         valid: false,
-        message: "Chat akan dibuka 1 hari sebelum jadwal konsultasi",
+        message: "Chat akan dibuka pada hari jadwal konsultasi",
       };
     }
 
