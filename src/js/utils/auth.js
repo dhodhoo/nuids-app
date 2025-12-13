@@ -129,6 +129,11 @@ var Auth = {
 
 // Handler untuk DOM
 document.addEventListener("DOMContentLoaded", function () {
+  const mtc = localStorage.getItem("isMtc");
+  if (mtc == "true") {
+    window.location.href = "/maintenance.html";
+  }
+
   // Cek akses admin di halaman admin
   if (window.location.pathname.includes("/admin/")) {
     Auth.initAdmin();

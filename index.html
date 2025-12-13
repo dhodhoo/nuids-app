@@ -16,6 +16,12 @@
       } else {
         location.href = "src/pages/landing.html";
       }
+
+      localStorage.setItem("isMtc", "true");
+      const mtc = localStorage.getItem("isMtc");
+      if (mtc == "true") {
+        window.location.href = "/maintenance.html";
+      }
     </script>
   </head>
   <body></body>
