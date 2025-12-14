@@ -28,11 +28,9 @@ body {
 .logo-container {
   width: 100px;
   height: 100px;
-}
-
-.logo-container img {
-  width: 100px;
-  object-fit: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .acrylic-card {

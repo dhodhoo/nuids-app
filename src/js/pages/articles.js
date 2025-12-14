@@ -1,4 +1,3 @@
-// Sample Articles Data (dapat diganti dengan API call)
 const articlesDatabase = [
   {
     id: 1,
@@ -619,14 +618,6 @@ function setupEventListeners() {
   document
     .getElementById("modalBackdrop")
     .addEventListener("click", closeModal);
-
-  // Newsletter
-  document.getElementById("newsletterForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = e.target.querySelector("input").value;
-    showToast(`✅ Terima kasih! Kami akan mengirim artikel ke ${email}`);
-    e.target.reset();
-  });
 }
 
 // Perform Search
@@ -924,8 +915,8 @@ function showToast(message) {
 }
 
 // CSS Animations
-const style = document.createElement("style");
-style.textContent = `
+const styleAnimate = document.createElement("style");
+styleAnimate.textContent = `
   @keyframes slideInRight {
     from { transform: translateX(100%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
@@ -935,4 +926,4 @@ style.textContent = `
     to { transform: translateX(100%); opacity: 0; }
   }
 `;
-document.head.appendChild(style);
+document.head.appendChild(styleAnimate);

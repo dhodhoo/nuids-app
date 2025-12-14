@@ -39,6 +39,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
 }
 
 .home-label {
@@ -50,7 +55,7 @@
 }
 
 .menu-container {
-  width: 90%;
+  width: 70%;
   display: flex;
   justify-content: center;
   gap: 30px;

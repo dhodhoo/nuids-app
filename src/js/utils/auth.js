@@ -6,7 +6,7 @@ var Auth = {
     // Jika bukan admin → tendang!
     if (!user || user.role !== "admin") {
       alert("Akses ditolak! Hanya Admin yang diizinkan.");
-      window.location.href = "../../../index.html";
+      window.location.href = "/index.html";
       return false;
     }
 
@@ -66,15 +66,11 @@ var Auth = {
     const userData = { name, email, password, role };
 
     this.saveUser(userData);
-    this.setCurrentUser(userData);
 
     alert("Registrasi berhasil! Selamat datang, " + name + "!");
 
     setTimeout(() => {
-      window.location.href =
-        role === "admin"
-          ? "../../../src/pages/admin/admin.html"
-          : "../../../src/pages/user/home.html";
+      window.location.href = "/src/pages/auth/login.html";
     }, 1000);
   },
 
@@ -89,12 +85,12 @@ var Auth = {
     this.setCurrentUser(user);
     this.setOnline();
 
-    alert(`Selamat datang kembali, ${user.name}!`);
+    alert(`Selamat datang, ${user.name}!`);
     setTimeout(() => {
       window.location.href =
         user.role === "admin"
-          ? "../../../src/pages/admin/admin.html"
-          : "../../../src/pages/user/home.html";
+          ? "/src/pages/admin/admin.html"
+          : "/src/pages/user/home.html";
     }, 1000);
   },
 

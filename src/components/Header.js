@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           <div class="greeting-text">
             <span class="greeting">
-              <img src="https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@48414511af747abe8b338932e61ad96695a9674c/uploads/2025-11-27T04-42-35-160Z-nbyn2hggg.png" alt="Logo" width="24" />
+              <img src="/public/images/logo.png" alt="Logo" width="20" />
               <h4>Hello!</h4>
             </span>
             <h3 class="adminName">User</h3>
@@ -104,9 +104,11 @@ document.addEventListener("DOMContentLoaded", function () {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    
   }
   
   .greeting {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -114,7 +116,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   
   .greeting h4 {
-    font-size: 12px;
+    position: absolute;
+    bottom: -3px;
+    left: 25px;
+    font-size: .85rem;
     color: #777;
     font-weight: 500;
     margin: 0;

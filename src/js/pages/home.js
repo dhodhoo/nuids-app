@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const userName = document.querySelector(".greeting-text h3");
     userName.textContent = user.name;
   } else {
-    window.location.href = "../../../index.html";
+    window.location.href = "/index.html";
   }
 
   const isFirtTimeUser = () => {
@@ -65,4 +65,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.body.appendChild(splashScreen);
   }
+});
+
+const banner = document.querySelectorAll(".slide");
+banner.forEach((e) => {
+  e.addEventListener("click", () => {
+    location.href = "/src/pages/user/(features)/articles.html";
+  });
 });
